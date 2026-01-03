@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio - Analista de Datos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #00ff88;
+            --primary-cyan: #00d4ff;
+            --primary-purple: #b967ff;
+            --primary-orange: #ff6b35;
+            --primary-yellow: #ffd23f;
+            --bg-dark: #0a0e27;
+            --bg-card: #141b3a;
+            --text-primary: #e8eaed;
+            --text-secondary: #9ca3af;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Canvas de partículas */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            transition: opacity 0.5s ease-out;
+        }
+
+        /* Navegación minimalista */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-green);
+            transition: width 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-green);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(185, 103, 255, 0.05) 0%, transparent 50%);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            display: flex;
+            align-items: center;
+            gap: 5rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-image-container {
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .profile-image-container::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border: 2px solid var(--primary-green);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.5;
+            }
+        }
+
+        .profile-image-container img {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-card);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+        }
+
+        .profile-text {
+            flex: 1;
+            min-width: 320px;
+        }
+
+        .profile-name {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .profile-title {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .profile-title span {
+            color: var(--primary-green);
+        }
+
+        .profile-description {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        .skills-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .skill-badge {
+            padding: 0.7rem 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--primary-green);
+            transition: all 0.3s;
+        }
+
+        .skill-badge:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.2);
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-green), var(--primary-cyan));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-header {
+            padding: 2rem 2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 212, 255, 0.05) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .project-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .project-header h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            transform: scale(1.05);
+        }
+
+        .tag-green {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--primary-green);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .tag-cyan {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--primary-cyan);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .tag-purple {
+            background: rgba(185, 103, 255, 0.15);
+            color: var(--primary-purple);
+            border: 1px solid rgba(185, 103, 255, 0.3);
+        }
+
+        .tag-orange {
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--primary-orange);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .tag-yellow {
+            background: rgba(255, 210, 63, 0.15);
+            color: var(--primary-yellow);
+            border: 1px solid rgba(255, 210, 63, 0.3);
+        }
+
+        .project-metrics {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .metric-icon {
+            font-size: 1.2rem;
+        }
+
+        .metric-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-green);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            transition: all 0.3s;
+        }
+
+        .project-link:hover {
+            background: var(--primary-green);
+            color: var(--bg-dark);
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.02) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        .footer-copy {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 3rem;
+            }
+
+            .profile-name {
+                font-size: 2.5rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navegación -->
+    <nav>
+        <ul>
+            <li><a href="#inicio">INICIO</a></li>
+            <li><a href="#proyectos">PROYECTOS</a></li>
+            <li><a href="#contacto">CONTACTO</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <div class="profile-image-container">
+                <img src="images/perfil.jpg" alt="Foto de perfil"
+                    onerror="this.src='https://via.placeholder.com/280/141b3a/00ff88?text=Tu+Foto'">
+            </div>
+            <div class="profile-text">
+                <h1 class="profile-name">Jardiel Santi</h1>
+                <h2 class="profile-title">&lt; <span>Ingeniero industrial especialista en Datos</span> /&gt;</h2>
+                <p class="profile-description">
+                    Transformo datos complejos en decisiones estratégicas.
+                    Especializado en análisis predictivo, automatizaciones y
+                    visualización de datos para generar impacto real en los negocios.
+                </p>
+                <div class="skills-container">
+                    <div class="skill-badge">Python • Pandas</div>
+                    <div class="skill-badge">SQL • PostgreSQL</div>
+                    <div class="skill-badge">Tableau • Power BI</div>
+                    <div class="skill-badge">Power Automate • Power Plataform</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="proyectos" class="projects">
+        <div class="section-header">
+            <h2 class="section-title">Proyectos Destacados</h2>
+            <p class="section-subtitle">// Casos de uso reales con impacto medible</p>
+        </div>
+        <div class="projects-grid">
+            <!-- Proyecto 1 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">
+                        <img src="images/dashboard_blank.svg" alt="Python" style="width: 70px; height: 70px;">
+                    </div>
+                    <h3>Dashboard operativo</h3>
+                </div>
+                <div class="project-content">
+                    <p class="project-description">
+                        ⚠️ <strong>El Problema:</strong> Información disgregada, inconsistente y desactualizada.<br><br>
+                        💡 <strong>La Solución:</strong> Normalización de la información, creación de pipelines para la
+                        integración de datos de diferentes fuentes tales como PDFs, bases de datos, archivos y mails.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag tag-green">Python ETL</span>
+                        <span class="tag tag-cyan">Power Automate</span>
+                        <span class="tag tag-purple">Airflow</span>
+                        <span class="tag tag-orange">Power BI</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-icon">📉</span>
+                            <span class="metric-text">-25% riesgo fúngico</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-icon">⚡</span>
+                            <span class="metric-text">50+ nodos</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">Ver Código →</a>
+                </div>
+            </div>
+
+            <!-- Proyecto 2 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🤖</div>
+                    <h3>Churn Prediction Model</h3>
+                </div>
+                <div class="project-content">
+                    <p class="project-description">
+                        ⚠️ <strong>El Problema:</strong> Alta tasa de deserción de clientes sin identificación temprana
+                        de señales de riesgo.<br><br>
+                        💡 <strong>La Solución:</strong> Modelo de ML con Random Forest que predice probabilidad de
+                        churn 30 días antes.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag tag-purple">Scikit-learn</span>
+                        <span class="tag tag-green">Feature Engineering</span>
+                        <span class="tag tag-yellow">XGBoost</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-icon">🎯</span>
+                            <span class="metric-text">89% precisión</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-icon">💰</span>
+                            <span class="metric-text">$2M ahorrados</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">Ver Código →</a>
+                </div>
+            </div>
+
+            <!-- Proyecto 3 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📊</div>
+                    <h3>Sales Analytics Dashboard</h3>
+                </div>
+                <div class="project-content">
+                    <p class="project-description">
+                        ⚠️ <strong>El Problema:</strong> Datos de ventas dispersos en múltiples sistemas sin visibilidad
+                        consolidada de KPIs.<br><br>
+                        💡 <strong>La Solución:</strong> Dashboard interactivo con predicciones de tendencias usando
+                        series temporales ARIMA.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag tag-cyan">Power BI</span>
+                        <span class="tag tag-orange">DAX</span>
+                        <span class="tag tag-green">Python API</span>
+                        <span class="tag tag-purple">Time Series</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-icon">📈</span>
+                            <span class="metric-text">+40% eficiencia</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-icon">⏱️</span>
+                            <span class="metric-text">Real-time</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">Ver Dashboard →</a>
+                </div>
+            </div>
+
+            <!-- Proyecto 4 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🎯</div>
+                    <h3>Customer Segmentation</h3>
+                </div>
+                <div class="project-content">
+                    <p class="project-description">
+                        ⚠️ <strong>El Problema:</strong> Marketing genérico sin personalización causando baja
+                        conversión.<br><br>
+                        💡 <strong>La Solución:</strong> Clustering con K-means identificando 5 segmentos de clientes
+                        con estrategias específicas.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag tag-purple">K-means</span>
+                        <span class="tag tag-green">RFM Analysis</span>
+                        <span class="tag tag-yellow">Tableau</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-icon">🔥</span>
+                            <span class="metric-text">5 segmentos</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-icon">📈</span>
+                            <span class="metric-text">+35% ROI</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">Ver Análisis →</a>
+                </div>
+            </div>
+
+            <!-- Proyecto 5 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">⚙️</div>
+                    <h3>ETL Pipeline Automation</h3>
+                </div>
+                <div class="project-content">
+                    <p class="project-description">
+                        ⚠️ <strong>El Problema:</strong> Procesamiento manual de datos desde múltiples fuentes
+                        consumiendo 20h semanales.<br><br>
+                        💡 <strong>La Solución:</strong> Pipeline automatizado que procesa +1M registros diarios con
+                        validación y alertas.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag tag-green">Apache Airflow</span>
+                        <span class="tag tag-cyan">PostgreSQL</span>
+                        <span class="tag tag-orange">AWS S3</span>
+                        <span class="tag tag-purple">Python</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-icon">⚡</span>
+                            <span class="metric-text">1M+ registros/día</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-icon">⏰</span>
+                            <span class="metric-text">-95% tiempo</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">Ver Código →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <div class="footer-links">
+            <a href="mailto:tu@email.com">📧 Email</a>
+            <a href="https://linkedin.com/in/tu-perfil" target="_blank">💼 LinkedIn</a>
+            <a href="https://github.com/tu-usuario" target="_blank">💻 GitHub</a>
+        </div>
+        <p class="footer-copy">© 2025 - Todos los derechos reservados</p>
+    </footer>
+
+    <!-- Canvas para partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <script>
+        // Smooth scroll para los enlaces del menú
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Sistema de partículas animadas al cargar
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 50;
+        const colors = ['#00ff88', '#00d4ff', '#b967ff', '#ff6b35', '#ffd23f'];
+
+        class Particle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height;
+                this.fadeDelay = Math.random() * 600;
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -10;
+                this.speed = 1 + Math.random() * 3;
+                this.radius = 2 + Math.random() * 4;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = 1;
+                this.fadeOut = false;
+                this.life = 0;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += Math.sin(this.life * 0.05) * 0.5;
+                this.life++;
+
+                if (this.life > 180 + this.fadeDelay) {
+                    this.fadeOut = true;
+                }
+
+                if (this.fadeOut) {
+                    this.opacity -= 0.02;
+                }
+
+                if (this.opacity <= 0 || this.y > canvas.height) {
+                    return false;
+                }
+                return true;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Crear partículas iniciales
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        let animationActive = true;
+        let frameCount = 0;
+
+        function animate() {
+            if (!animationActive) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const particle = particles[i];
+                if (!particle.update()) {
+                    particles.splice(i, 1);
+                }
+                particle.draw();
+            }
+
+            frameCount++;
+
+            // Detener animación después de que todas las partículas desaparezcan
+            if (particles.length === 0 && frameCount > 300) {
+                animationActive = false;
+                canvas.style.opacity = '0';
+                setTimeout(() => {
+                    canvas.style.display = 'none';
+                }, 500);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Iniciar animación cuando carga la página
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                animate();
+            }, 300);
+        });
+
+        // Ajustar canvas al redimensionar ventana
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+
+</html>
