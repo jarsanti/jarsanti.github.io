@@ -165,13 +165,15 @@
             }
         }
 
-        .profile-image-container img {
+        .profile-image-container {
             width: 280px;
             height: 280px;
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid var(--bg-card);
             box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+            object-position: 50% 50%;
+            /* Ajusta el segundo número para mover verticalmente */
         }
 
         .profile-text {
@@ -388,6 +390,34 @@
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-green);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            transition: all 0.3s;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-links {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .project-link:hover {
+            background: var(--primary-green);
+            color: var(--bg-dark);
+            transform: translateX(5px);
+        }
+
         .metric {
             display: flex;
             align-items: center;
@@ -404,26 +434,6 @@
             color: var(--text-secondary);
         }
 
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--primary-green);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            padding: 0.8rem 1.5rem;
-            background: rgba(0, 255, 136, 0.1);
-            border-radius: 8px;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            transition: all 0.3s;
-        }
-
-        .project-link:hover {
-            background: var(--primary-green);
-            color: var(--bg-dark);
-            transform: translateX(5px);
-        }
 
         /* Footer */
         footer {
@@ -498,9 +508,8 @@
     <!-- Hero Section -->
     <section id="inicio" class="hero">
         <div class="hero-content">
-            <div class="profile-image-container">
-                <img src="images/perfil.jpg" alt="Foto de perfil"
-                    onerror="this.src='https://via.placeholder.com/280/141b3a/00ff88?text=Tu+Foto'">
+            <div class="profile-image-container"
+                style="background-image: url('images/perfil.jpg'); background-size: cover; background-position: center;">
             </div>
             <div class="profile-text">
                 <h1 class="profile-name">Jardiel Santi</h1>
@@ -533,11 +542,12 @@
                     <div class="project-icon">
                         <img src="images/dashboard_blank.svg" alt="Python" style="width: 70px; height: 70px;">
                     </div>
-                    <h3>Dashboard operativo</h3>
+                    <h3>Dashboard operativo Aduanas</h3>
                 </div>
                 <div class="project-content">
                     <p class="project-description">
-                        ⚠️ <strong>El Problema:</strong> Información disgregada, inconsistente y desactualizada.<br><br>
+                        ⚠️ <strong>El Problema:</strong> Información sobre despachos aduaneros disgregada, inconsistente
+                        y desactualizada.<br><br>
                         💡 <strong>La Solución:</strong> Normalización de la información, creación de pipelines para la
                         integración de datos de diferentes fuentes tales como PDFs, bases de datos, archivos y mails.
                     </p>
@@ -549,145 +559,119 @@
                     </div>
                     <div class="project-metrics">
                         <div class="metric">
-                            <span class="metric-icon">📉</span>
-                            <span class="metric-text">-25% riesgo fúngico</span>
+                            <span class="metric-icon">⏱️</span>
+                            <span class="metric-text">-300 HH/año</span>
                         </div>
                         <div class="metric">
-                            <span class="metric-icon">⚡</span>
-                            <span class="metric-text">50+ nodos</span>
+                            <span class="metric-icon">🎯</span>
+                            <span class="metric-text">+20% precisión</span>
                         </div>
                     </div>
-                    <a href="#" class="project-link">Ver Código →</a>
+                    <div class="project-links">
+                        <a href="#" class="project-link">Ver Código →</a>
+                        <a href="#" class="project-link">Dashboard →</a>
+                    </div>
                 </div>
             </div>
 
             <!-- Proyecto 2 -->
             <div class="project-card">
                 <div class="project-header">
-                    <div class="project-icon">🤖</div>
-                    <h3>Churn Prediction Model</h3>
+                    <div class="project-icon">
+                        <img src="images/regular-oil-well.svg" alt="Oil" style="width: 70px; height: 70px;">
+                    </div>
+                    <h3>Análisis exploratorio Hidrocarburos</h3>
                 </div>
                 <div class="project-content">
                     <p class="project-description">
-                        ⚠️ <strong>El Problema:</strong> Alta tasa de deserción de clientes sin identificación temprana
-                        de señales de riesgo.<br><br>
-                        💡 <strong>La Solución:</strong> Modelo de ML con Random Forest que predice probabilidad de
-                        churn 30 días antes.
+                        ⚠️ <strong>El Problema:</strong> Información inconsistente en Datasets de ductos de operaciones
+                        Downstream de hidrocarburos Argentina.<br><br>
+                        💡 <strong>La Solución:</strong> Se estandarizaron los datos y se realizó análisis exploratorio.
                     </p>
                     <div class="project-tags">
-                        <span class="tag tag-purple">Scikit-learn</span>
-                        <span class="tag tag-green">Feature Engineering</span>
-                        <span class="tag tag-yellow">XGBoost</span>
+                        <span class="tag tag-purple">Python</span>
+                        <span class="tag tag-green">Power BI</span>
                     </div>
                     <div class="project-metrics">
                         <div class="metric">
                             <span class="metric-icon">🎯</span>
-                            <span class="metric-text">89% precisión</span>
+                            <span class="metric-text">-15% presición</span>
                         </div>
                         <div class="metric">
-                            <span class="metric-icon">💰</span>
-                            <span class="metric-text">$2M ahorrados</span>
+                            <span class="metric-icon">🔍</span>
+                            <span class="metric-text">Insights</span>
                         </div>
                     </div>
-                    <a href="#" class="project-link">Ver Código →</a>
+                    <div class="project-links">
+                        <a href="https://github.com/jarsanti/Hidrocarburos" target="_blank" class="project-link">Ver
+                            Código →</a>
+                        <a href="https://jarsanti.github.io/Hidrocarburos/" target="_blank"
+                            class="project-link">Dashboard →</a>
+                    </div>
                 </div>
             </div>
 
             <!-- Proyecto 3 -->
             <div class="project-card">
                 <div class="project-header">
-                    <div class="project-icon">📊</div>
-                    <h3>Sales Analytics Dashboard</h3>
+                    <div class="project-icon">
+                        <img src="images/gearfile.svg" alt="Oil" style="width: 70px; height: 70px;">
+                    </div>
+                    <h3>Automatización de procesos de datos</h3>
                 </div>
                 <div class="project-content">
                     <p class="project-description">
-                        ⚠️ <strong>El Problema:</strong> Datos de ventas dispersos en múltiples sistemas sin visibilidad
-                        consolidada de KPIs.<br><br>
-                        💡 <strong>La Solución:</strong> Dashboard interactivo con predicciones de tendencias usando
-                        series temporales ARIMA.
+                        ⚠️ <strong>El Problema:</strong> Procesos de manipulación de datos totalmente manual,
+                        repetitivos, con grandes insumos de tiempo y bajo valor agregado.<br><br>
+                        💡 <strong>La Solución:</strong> Generación de bots para la automatización de procesos.
                     </p>
                     <div class="project-tags">
-                        <span class="tag tag-cyan">Power BI</span>
-                        <span class="tag tag-orange">DAX</span>
-                        <span class="tag tag-green">Python API</span>
-                        <span class="tag tag-purple">Time Series</span>
+                        <span class="tag tag-cyan">Python</span>
+                        <span class="tag tag-orange">Power Automate</span>
+                        <span class="tag tag-green">Automation 360</span>
                     </div>
                     <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-icon">📈</span>
-                            <span class="metric-text">+40% eficiencia</span>
-                        </div>
                         <div class="metric">
                             <span class="metric-icon">⏱️</span>
-                            <span class="metric-text">Real-time</span>
-                        </div>
-                    </div>
-                    <a href="#" class="project-link">Ver Dashboard →</a>
-                </div>
-            </div>
-
-            <!-- Proyecto 4 -->
-            <div class="project-card">
-                <div class="project-header">
-                    <div class="project-icon">🎯</div>
-                    <h3>Customer Segmentation</h3>
-                </div>
-                <div class="project-content">
-                    <p class="project-description">
-                        ⚠️ <strong>El Problema:</strong> Marketing genérico sin personalización causando baja
-                        conversión.<br><br>
-                        💡 <strong>La Solución:</strong> Clustering con K-means identificando 5 segmentos de clientes
-                        con estrategias específicas.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag tag-purple">K-means</span>
-                        <span class="tag tag-green">RFM Analysis</span>
-                        <span class="tag tag-yellow">Tableau</span>
-                    </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-icon">🔥</span>
-                            <span class="metric-text">5 segmentos</span>
+                            <span class="metric-text">-1100 HH/año</span>
                         </div>
                         <div class="metric">
-                            <span class="metric-icon">📈</span>
-                            <span class="metric-text">+35% ROI</span>
-                        </div>
-                    </div>
-                    <a href="#" class="project-link">Ver Análisis →</a>
-                </div>
-            </div>
-
-            <!-- Proyecto 5 -->
-            <div class="project-card">
-                <div class="project-header">
-                    <div class="project-icon">⚙️</div>
-                    <h3>ETL Pipeline Automation</h3>
-                </div>
-                <div class="project-content">
-                    <p class="project-description">
-                        ⚠️ <strong>El Problema:</strong> Procesamiento manual de datos desde múltiples fuentes
-                        consumiendo 20h semanales.<br><br>
-                        💡 <strong>La Solución:</strong> Pipeline automatizado que procesa +1M registros diarios con
-                        validación y alertas.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag tag-green">Apache Airflow</span>
-                        <span class="tag tag-cyan">PostgreSQL</span>
-                        <span class="tag tag-orange">AWS S3</span>
-                        <span class="tag tag-purple">Python</span>
-                    </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-icon">⚡</span>
-                            <span class="metric-text">1M+ registros/día</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-icon">⏰</span>
-                            <span class="metric-text">-95% tiempo</span>
+                            <span class="metric-icon">🏆</span>
+                            <span class="metric-text">+8% eficiencia</span>
                         </div>
                     </div>
                     <a href="#" class="project-link">Ver Código →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">
+                        <img src="images/gauge.svg" alt="Oil" style="width: 80px; height: 80px;">
+                    </div>
+                    <h3>Dashboard medición KPIs</h3>
+                </div>
+                <div class="project-content">
+                    <p class="project-description">
+                        ⚠️ <strong>El Problema:</strong> Dashboard de seguimiento de KPIs obsoleto, con información poco
+                        sintética y de lectura poco intuitiva. Falta de trazabilidad de los indicadores<br><br>
+                        💡 <strong>La Solución:</strong> Generación de Dashboard sintético y con estética mejorada, con
+                        trazabilidad completa.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag tag-cyan">Power BI</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-icon">⏱️</span>
+                            <span class="metric-text">-1100 HH/año</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-icon">🏆</span>
+                            <span class="metric-text">+8% eficiencia</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">Dashboard →</a>
                 </div>
             </div>
         </div>
@@ -696,15 +680,12 @@
     <!-- Footer -->
     <footer id="contacto">
         <div class="footer-links">
-            <a href="mailto:tu@email.com">📧 Email</a>
-            <a href="https://linkedin.com/in/tu-perfil" target="_blank">💼 LinkedIn</a>
-            <a href="https://github.com/tu-usuario" target="_blank">💻 GitHub</a>
+            <a href="mailto:jardi.santi@gmail.com">📧 Email</a>
+            <a href="https://www.linkedin.com/in/jardielsanti/" target="_blank">💼 LinkedIn</a>
+            <a href="https://github.com/jarsanti" target="_blank">💻 GitHub</a>
         </div>
-        <p class="footer-copy">© 2025 - Todos los derechos reservados</p>
+        <p class="footer-copy">© 2026 - Todos los derechos reservados</p>
     </footer>
-
-    <!-- Canvas para partículas -->
-    <canvas id="particles-canvas"></canvas>
 
     <script>
         // Smooth scroll para los enlaces del menú
@@ -721,114 +702,6 @@
             });
         });
 
-        // Sistema de partículas animadas al cargar
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const particles = [];
-        const particleCount = 50;
-        const colors = ['#00ff88', '#00d4ff', '#b967ff', '#ff6b35', '#ffd23f'];
-
-        class Particle {
-            constructor() {
-                this.reset();
-                this.y = Math.random() * canvas.height;
-                this.fadeDelay = Math.random() * 600;
-            }
-
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = -10;
-                this.speed = 1 + Math.random() * 3;
-                this.radius = 2 + Math.random() * 4;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.opacity = 1;
-                this.fadeOut = false;
-                this.life = 0;
-            }
-
-            update() {
-                this.y += this.speed;
-                this.x += Math.sin(this.life * 0.05) * 0.5;
-                this.life++;
-
-                if (this.life > 180 + this.fadeDelay) {
-                    this.fadeOut = true;
-                }
-
-                if (this.fadeOut) {
-                    this.opacity -= 0.02;
-                }
-
-                if (this.opacity <= 0 || this.y > canvas.height) {
-                    return false;
-                }
-                return true;
-            }
-
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = this.color;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-        }
-
-        // Crear partículas iniciales
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-
-        let animationActive = true;
-        let frameCount = 0;
-
-        function animate() {
-            if (!animationActive) return;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const particle = particles[i];
-                if (!particle.update()) {
-                    particles.splice(i, 1);
-                }
-                particle.draw();
-            }
-
-            frameCount++;
-
-            // Detener animación después de que todas las partículas desaparezcan
-            if (particles.length === 0 && frameCount > 300) {
-                animationActive = false;
-                canvas.style.opacity = '0';
-                setTimeout(() => {
-                    canvas.style.display = 'none';
-                }, 500);
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        // Iniciar animación cuando carga la página
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                animate();
-            }, 300);
-        });
-
-        // Ajustar canvas al redimensionar ventana
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
     </script>
 </body>
 
